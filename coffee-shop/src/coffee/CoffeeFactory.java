@@ -1,11 +1,11 @@
+package coffee;
+
 public class CoffeeFactory {
     public static Coffee createCoffee(String type) {
-        switch (type.toLowerCase()) {
-            case "simple":
-                return new SimpleCoffee();
-            // Add more coffee types here as needed
-            default:
-                throw new IllegalArgumentException("Unknown coffee type: " + type);
-        }
+        return switch (type.toLowerCase()) {
+            case "espresso" -> new Espresso();
+            case "latte" -> new Latte();
+            default -> throw new IllegalArgumentException("Tipo de café desconhecido: " + type);
+        };
     }
 }

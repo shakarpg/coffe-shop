@@ -1,21 +1,11 @@
-package coffee;
+package decorators;
 
-import decorators.CoffeeDecorator;
+import coffee.Coffee;
 
 public abstract class CoffeeDecorator implements Coffee {
-    protected Coffee decoratedCoffee;
+    protected Coffee coffee;
 
-    public CoffeeDecorator(Coffee decoratedCoffee) {
-        this.decoratedCoffee = decoratedCoffee;
-    }
-
-    @Override
-    public String getDescription() {
-        return decoratedCoffee.getDescription();
-    }
-
-    @Override
-    public double getCost() {
-        return decoratedCoffee.getCost();
+    public CoffeeDecorator(Coffee coffee) {
+        this.coffee = coffee;
     }
 }
