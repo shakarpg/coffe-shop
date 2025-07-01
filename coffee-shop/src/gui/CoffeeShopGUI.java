@@ -3,13 +3,12 @@ package gui;
 import coffee.Coffee;
 import coffee.CoffeeFactory;
 import decorators.*;
-import payment.*;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.FileWriter;
 import java.io.IOException;
+import javax.swing.*;
+import payment.*;
 
 public class CoffeeShopGUI extends JFrame {
     private JComboBox<String> coffeeTypeBox;
@@ -78,4 +77,24 @@ public class CoffeeShopGUI extends JFrame {
         if (chocolateBox.isSelected()) coffee = new Chocolate(coffee);
         if (whippedCreamBox.isSelected()) coffee = new WhippedCream(coffee);
 
-        String paymentMethod
+        String paymentMethod = (String) paymentBox.getSelectedItem();
+        PaymentStrategy strategy;
+        switch (paymentMethod) {
+            case "PIX" -> strategy = new PixPayment();
+            case "Dinheiro" -> strategy = new CashPayment();
+            default -> strategy = new CreditCardPayment();
+        }
+
+        double total = coffee.getCost();
+        strategy.pay(total);
+
+        String resumo = "Pedido: " + coffee.getDescription() + "\nTotal: R$ " + String.format("%.2f", total);
+        summaryArea.setText(resumo);
+
+        try (FileWriter writer = new FileWriter("pedido.txt", true)) {
+            writer.write(resumo + "\n===========================\n");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Erro ao salvar o pedido: " + e.getMessage());
+        }
+    }
+}

@@ -1,3 +1,5 @@
+package coffee;
+
 public class SimpleCoffee implements Coffee {
     @Override
     public String getDescription() {
